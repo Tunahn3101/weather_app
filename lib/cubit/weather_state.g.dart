@@ -9,6 +9,8 @@ part of 'weather_state.dart';
 abstract class _$WeatherStateCWProxy {
   WeatherState currentWeatherModel(CurrentWeatherModel? currentWeatherModel);
 
+  WeatherState isLoading(bool isLoading);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WeatherState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -17,6 +19,7 @@ abstract class _$WeatherStateCWProxy {
   /// ````
   WeatherState call({
     CurrentWeatherModel? currentWeatherModel,
+    bool? isLoading,
   });
 }
 
@@ -31,6 +34,9 @@ class _$WeatherStateCWProxyImpl implements _$WeatherStateCWProxy {
       this(currentWeatherModel: currentWeatherModel);
 
   @override
+  WeatherState isLoading(bool isLoading) => this(isLoading: isLoading);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WeatherState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -40,12 +46,17 @@ class _$WeatherStateCWProxyImpl implements _$WeatherStateCWProxy {
   /// ````
   WeatherState call({
     Object? currentWeatherModel = const $CopyWithPlaceholder(),
+    Object? isLoading = const $CopyWithPlaceholder(),
   }) {
     return WeatherState(
       currentWeatherModel: currentWeatherModel == const $CopyWithPlaceholder()
           ? _value.currentWeatherModel
           // ignore: cast_nullable_to_non_nullable
           : currentWeatherModel as CurrentWeatherModel?,
+      isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
+          ? _value.isLoading
+          // ignore: cast_nullable_to_non_nullable
+          : isLoading as bool,
     );
   }
 }

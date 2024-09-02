@@ -8,10 +8,12 @@ part 'weather_state.g.dart';
 class WeatherState extends Equatable {
   const WeatherState({
     this.currentWeatherModel,
+    this.isLoading = false,
   });
 
   final CurrentWeatherModel? currentWeatherModel;
+  final bool isLoading;
 
   @override
-  List<Object?> get props => [currentWeatherModel];
+  List<Object?> get props => [currentWeatherModel, isLoading];
 }
