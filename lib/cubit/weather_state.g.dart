@@ -9,6 +9,8 @@ part of 'weather_state.dart';
 abstract class _$WeatherStateCWProxy {
   WeatherState currentWeatherModel(CurrentWeatherModel? currentWeatherModel);
 
+  WeatherState wheatherWeekState(WheatherWeekModel? wheatherWeekState);
+
   WeatherState isLoading(bool isLoading);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `WeatherState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -19,6 +21,7 @@ abstract class _$WeatherStateCWProxy {
   /// ````
   WeatherState call({
     CurrentWeatherModel? currentWeatherModel,
+    WheatherWeekModel? wheatherWeekState,
     bool? isLoading,
   });
 }
@@ -34,6 +37,10 @@ class _$WeatherStateCWProxyImpl implements _$WeatherStateCWProxy {
       this(currentWeatherModel: currentWeatherModel);
 
   @override
+  WeatherState wheatherWeekState(WheatherWeekModel? wheatherWeekState) =>
+      this(wheatherWeekState: wheatherWeekState);
+
+  @override
   WeatherState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
@@ -46,6 +53,7 @@ class _$WeatherStateCWProxyImpl implements _$WeatherStateCWProxy {
   /// ````
   WeatherState call({
     Object? currentWeatherModel = const $CopyWithPlaceholder(),
+    Object? wheatherWeekState = const $CopyWithPlaceholder(),
     Object? isLoading = const $CopyWithPlaceholder(),
   }) {
     return WeatherState(
@@ -53,6 +61,10 @@ class _$WeatherStateCWProxyImpl implements _$WeatherStateCWProxy {
           ? _value.currentWeatherModel
           // ignore: cast_nullable_to_non_nullable
           : currentWeatherModel as CurrentWeatherModel?,
+      wheatherWeekState: wheatherWeekState == const $CopyWithPlaceholder()
+          ? _value.wheatherWeekState
+          // ignore: cast_nullable_to_non_nullable
+          : wheatherWeekState as WheatherWeekModel?,
       isLoading: isLoading == const $CopyWithPlaceholder() || isLoading == null
           ? _value.isLoading
           // ignore: cast_nullable_to_non_nullable

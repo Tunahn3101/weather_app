@@ -17,4 +17,19 @@ class Services {
       return {};
     }
   }
+
+  static Future<Map<String, dynamic>> getWheatherWeek(
+      Map<String, dynamic> param) async {
+    try {
+      final response = await APIService.instance.request(
+        '/data/2.5/forecast',
+        DioMethod.get,
+        param: param,
+      );
+
+      return response.data;
+    } catch (e) {
+      return {};
+    }
+  }
 }

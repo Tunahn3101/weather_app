@@ -6,6 +6,7 @@ import 'package:weather_app/core/config/app_color.dart';
 import 'package:weather_app/core/config/app_images.dart';
 import 'package:weather_app/cubit/weather_cubit.dart';
 import 'package:weather_app/cubit/weather_state.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,13 +17,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late WeatherCubit weatherCubit;
+  late final String? currentDay;
 
   @override
   void initState() {
     super.initState();
     weatherCubit = context.read<WeatherCubit>();
     weatherCubit.getPosition();
-    // test
+    initializeDateFormatting();
+    DateTime dateTimeNow = DateTime.now();
+    currentDay = DateFormat('EEEE, dd MMMM yyyy', 'vi').format(dateTimeNow);
   }
 
   @override
@@ -116,13 +120,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildWeatherDetail(WeatherState state) {
-    DateTime dateTime = DateTime.now();
-
-    String currentDay = DateFormat('EEEE, dd MMMM yyyy').format(dateTime);
     return Container(
       width: 353,
       height: 335,
-      padding: const EdgeInsets.symmetric(horizontal: 60),
       decoration: BoxDecoration(
         color: Colors.blue.shade200,
         border: Border.all(
@@ -142,38 +142,47 @@ class _HomePageState extends State<HomePage> {
         children: [
           const SizedBox(height: 12),
           Text(
-            currentDay,
+            currentDay ?? '',
             style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 18),
-          Text(
-            ' ${state.currentWeatherModel?.main?.temp!.ceil().toString()}°',
-            style: const TextStyle(
-              fontSize: 100,
-              color: AppColors.white,
-            ),
-          ),
           const SizedBox(height: 10),
-          const Text(
-            'Cloudy',
-            style: TextStyle(
-              fontSize: 24,
-              color: AppColors.white,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60),
+            child: Column(
+              children: [
+                Text(
+                  ' ${state.currentWeatherModel?.main?.temp!.ceil().toString()}°',
+                  style: const TextStyle(
+                    fontSize: 100,
+                    color: AppColors.white,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Cloudy',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: AppColors.white,
+                  ),
+                ),
+                _buildWeatherStatsRow(
+                  icon: AppImages.icWindy,
+                  label: 'Wind',
+                  value:
+                      '${state.currentWeatherModel?.wind!.speed!.ceil()} km/h',
+                ),
+                const SizedBox(height: 10),
+                _buildWeatherStatsRow(
+                  icon: AppImages.icHum,
+                  label: 'Hum',
+                  value:
+                      '${state.currentWeatherModel?.main?.humidity.toString()} %',
+                ),
+              ],
             ),
-          ),
-          _buildWeatherStatsRow(
-            icon: AppImages.icWindy,
-            label: 'Wind',
-            value: '${state.currentWeatherModel?.wind!.speed!.ceil()} km/h',
-          ),
-          const SizedBox(height: 10),
-          _buildWeatherStatsRow(
-            icon: AppImages.icHum,
-            label: 'Hum',
-            value: '${state.currentWeatherModel?.main?.humidity.toString()} %',
           ),
         ],
       ),

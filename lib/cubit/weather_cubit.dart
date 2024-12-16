@@ -2,7 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/core/config/constraints.dart';
 import 'package:weather_app/cubit/weather_state.dart';
-import 'package:weather_app/model/current_weather_model.dart';
+import 'package:weather_app/response_model/current_weather_model.dart';
+import 'package:weather_app/response_model/wheather_week_model.dart';
 import 'package:weather_app/services/services.dart';
 
 class WeatherCubit extends Cubit<WeatherState> {
@@ -38,6 +39,7 @@ class WeatherCubit extends Cubit<WeatherState> {
     lon = position.latitude;
 
     await getCurrentWeather();
+    await getWheatherWeek();
   }
 
   Future<void> getCurrentWeather() async {
@@ -51,13 +53,33 @@ class WeatherCubit extends Cubit<WeatherState> {
           'units': 'metric',
         },
       );
-      print('response : $response');
 
       if (response.isNotEmpty) {
         emit(
           state.copyWith(
             currentWeatherModel: CurrentWeatherModel.fromJson(response),
             isLoading: false,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
+      rethrow;
+    }
+  }
+
+  Future<void> getWheatherWeek() async {
+    try {
+      final response = await Services.getWheatherWeek({
+        'lat': lat.toString(),
+        'lon': lon.toString(),
+        'appid': Constraints.API_KEY,
+        'units': 'minutely,hourly',
+      });
+      if (response.isNotEmpty) {
+        emit(
+          state.copyWith(
+            wheatherWeekState: WheatherWeekModel.fromJson(response),
           ),
         );
       }
